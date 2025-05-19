@@ -1,0 +1,181 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Пройдіть першу частину тесту з англійської мови від English Dream School, щоб визначити свій рівень!">
+    <meta name="keywords" content="тест англійської, рівень англійської, English Dream School">
+    <title>Тест з англійської: Частина 1 | English Dream School</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google AdSense код -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+            crossorigin="anonymous"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-blue-700 text-white py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold">English Dream School</a>
+            <div class="space-x-4">
+                <a href="index.html" class="hover:text-yellow-400">Головна</a>
+                <a href="test1.html" class="hover:text-yellow-400">Тест</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Test Section -->
+    <section class="container mx-auto py-10 px-4">
+        <h1 class="text-4xl font-bold text-center mb-6">Тест з англійської мови: Частина 1</h1>
+        <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-6 text-center">
+            Пройдіть першу частину нашого тесту (10 запитань). Оберіть правильну відповідь для кожного запитання і натисніть "Продовжити" для переходу до другої частини.
+        </p>
+        <!-- AdSense Block -->
+        <div class="text-center mb-6">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="XXXXXXXXXX"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <div id="quiz" class="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto">
+            <!-- Question 1 -->
+            <div class="mb-6">
+                <p class="text-lg font-semibold mb-2">1. What is the correct form of the verb "to be" in this sentence: "They ___ happy."?</p>
+                <label class="block mb-2"><input type="radio" name="q1" value="0"> is</label>
+                <label class="block mb-2"><input type="radio" name="q1" value="1"> are</label>
+                <label class="block mb-2"><input type="radio" name="q1" value="0"> am</label>
+            </div>
+            <!-- Question 2 -->
+            <div class="mb-6">
+                <p class="text-lg font-semibold mb-2">2. Choose the correct article: "I saw ___ elephant at the zoo."</p>
+                <label class="block mb-2"><input type="radio" name="q2" value="0"> a</label>
+                <label class="block mb-2"><input type="radio" name="q2" value="1"> an</label>
+                <label class="block mb-2"><input type="radio" name="q2" value="0"> the</label>
+            </div>
+            <!-- Question 3 -->
+            <div class="mb-6">
+                <p class="text-lg font-semibold mb-2">3. What is the past tense of "see"?</p>
+                <label class="block mb-2"><input type="radio" name="q3" value="0"> see</label>
+                <label class="block mb-2"><input type="radio" name="q3" value="1"> saw</label>
+                <label class="block mb-2"><input type="radio" name="q3" value="0"> seen</label>
+            </div>
+            <!-- Question 4 -->
+            <div class="mb-6">
+                <p class="text-lg font-semibold mb-2">4. Which sentence is correct?</p>
+                <label class="block mb-2"><input type="radio" name="q4" value="0"> He don’t like tea.</label>
+                <label class="block mb-2"><input type="radio" name="q4" value="1"> He doesn’t like tea.</label>
+                <label class="block mb-2"><input type="radio" name="q4" value="0"> He not like tea.</label>
+            </div>
+            <!-- Question 5 -->
+            <div class="mb-6">
+                <p class="text-lg font-semibold mb-2">5. What does "I’m going to the shop" mean?</p>
+                <label class="block mb-2"><input type="radio" name="q5" value="0"> I was at the shop.</label>
+                <label class="block mb-2"><input type="radio" name="q5" value="1"> I will go to the shop.</label>
+                <label class="block mb-2"><input type="radio" name="q5" value="0"> I am at the shop.</label>
+            </div>
+            <!-- Question 6 -->
+            <div class="mb-6">
+                <p class="text-lg font-semibold mb-2">6. Choose the correct word: "She ___ to music every day."</p>
+                <label class="block mb-2"><input type="radio" name="q6" value="1"> listens</label>
+                <label class="block mb-2"><input type="radio" name="q6" value="0"> listen</label>
+                <label class="block mb-2"><input type="radio" name="q6" value="0"> listening</label>
+            </div>
+            <!-- Question 7 -->
+            <div class="mb-6">
+                <p class="text-lg font-semibold mb-2">7. What is the plural of "child"?</p>
+                <label class="block mb-2"><input type="radio" name="q7" value="0"> childs</label>
+                <label class="block mb-2"><input type="radio" name="q7" value="1"> children</label>
+                <label class="block mb-2"><input type="radio" name="q7" value="0"> childes</label>
+            </div>
+            <!-- Question 8 -->
+            <div class="mb-6">
+                <p class="text-lg font-semibold mb-2">8. Complete the sentence: "If I ___ time, I will help you."</p>
+                <label class="block mb-2"><input type="radio" name="q8" value="1"> have</label>
+                <label class="block mb-2"><input type="radio" name="q8" value="0"> has</label>
+                <label class="block mb-2"><input type="radio" name="q8" value="0"> had</label>
+            </div>
+            <!-- Question 9 -->
+            <div class="mb-6">
+                <p class="text-lg font-semibold mb-2">9. Which is a synonym for "big"?</p>
+                <label class="block mb-2"><input type="radio" name="q9" value="0"> small</label>
+                <label class="block mb-2"><input type="radio" name="q9" value="1"> large</label>
+                <label class="block mb-2"><input type="radio" name="q9" value="0"> tiny</label>
+            </div>
+            <!-- Question 10 -->
+            <div class="mb-6">
+                <p class="text-lg font-semibold mb-2">10. What does "I’ve lost my keys" mean?</p>
+                <label class="block mb-2"><input type="radio" name="q10" value="0"> I found my keys.</label>
+                <label class="block mb-2"><input type="radio" name="q10" value="1"> I can’t find my keys.</label>
+                <label class="block mb-2"><input type="radio" name="q10" value="0"> I have my keys.</label>
+            </div>
+            <button id="nextButton" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition w-full">Продовжити</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4 text-center">
+        <p>© 2025 English Dream School. Усі права захищено.</p>
+    </footer>
+
+    <script>
+        const nextButton = document.getElementById('nextButton');
+        nextButton.addEventListener('click', () => {
+            const answers = document.querySelectorAll('input[type="radio"]:checked');
+            if (answers.length < 10) {
+                alert('Будь ласка, дайте відповідь на всі запитання.');
+                return;
+            }
+            let score = 0;
+            answers.forEach(answer => {
+                score += parseInt(answer.value);
+            });
+            sessionStorage.setItem('part1Score', score);
+            window.location.href = 'test2.html';
+        });
+    </script>
+</body>
+</html>

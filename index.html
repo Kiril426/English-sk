@@ -1,0 +1,211 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="English Dream School — найкращі курси англійської мови онлайн та офлайн. Долучайтесь до нас і вивчайте англійську легко!">
+    <meta name="keywords" content="англійська мова, курси англійської, вивчення англійської, онлайн курси">
+    <title>English Dream School</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google AdSense код -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+            crossorigin="anonymous"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-blue-700 text-white py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold">English Dream School</a>
+            <div class="space-x-4">
+                <a href="index.html" class="hover:text-yellow-400">Головна</a>
+                <a href="test1.html" class="hover:text-yellow-400">Тест</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white py-6">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-bold">English Dream School</h1>
+            <p class="mt-2 text-lg">Вивчай англійську мову з найкращими викладачами!</p>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="container mx-auto py-10 px-4">
+        <h2 class="text-3xl font-semibold text-center mb-6">Про нас</h2>
+        <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-6">
+            English Dream School — це сучасна школа англійської мови, яка працює з 2015 року. Наша мета — зробити вивчення англійської доступним, цікавим і ефективним. Ми пропонуємо курси для всіх рівнів: від початківців до просунутих. Наші викладачі — сертифіковані професіонали, які використовують сучасні методики та інтерактивні інструменти.
+        </p>
+        <p class="text-lg text-gray-700 max-w-3xl mx-auto">
+            Ми пишаємося індивідуальним підходом до кожного студента та гнучкими форматами навчання: онлайн, офлайн або гібридний формат. Приєднуйтесь до нас і відкрийте нові можливості з англійською мовою!
+        </p>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="bg-gray-200 py-10">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-semibold text-center mb-6">Наші курси</h2>
+            <!-- AdSense Block -->
+            <div class="text-center mb-6">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-2">Англійська для початківців</h3>
+                    <p>Ідеальний курс для тих, хто тільки починає. Вивчайте базову лексику, граматику та розмовні фрази.</p>
+                    <p class="mt-2 font-semibold">Тривалість: 3 місяці</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-2">Розмовна англійська</h3>
+                    <p>Покращуйте свої розмовні навички з носіями мови. Фокус на практичному спілкуванні.</p>
+                    <p class="mt-2 font-semibold">Тривалість: 2 місяці</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-2">Підготовка до IELTS</h3>
+                    <p>Готуйтесь до міжнародного іспиту IELTS з нашими експертами. Інтенсивний курс для високих балів.</p>
+                    <p class="mt-2 font-semibold">Тривалість: 4 місяці</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="container mx-auto py-10 px-4">
+        <h2 class="text-3xl font-semibold text-center mb-6">Відгуки наших студентів</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <p class="text-gray-700 italic">"Завдяки English Dream School я нарешті заговорив англійською! Викладачі чудові, а уроки дуже цікаві."</p>
+                <p class="mt-4 font-semibold">— Олексій, 28 років</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <p class="text-gray-700 italic">"Курс підготовки до IELTS допоміг мені отримати 7.5! Дуже рекомендую цю школу."</p>
+                <p class="mt-4 font-semibold">— Анна, 23 роки</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="bg-blue-500 text-white py-10 text-center">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-semibold mb-4">Готові розпочати навчання?</h2>
+            <p class="mb-6">Запишіться на безкоштовний пробний урок вже сьогодні!</p>
+            <button id="signupButton" class="bg-yellow-400 text-black font-bold py-3 px-6 rounded-lg hover:bg-yellow-500 transition">Записатися</button>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="container mx-auto py-10 px-4">
+        <h2 class="text-3xl font-semibold text-center mb-6">Контакти</h2>
+        <div class="text-center">
+            <p class="text-lg text-gray-700 mb-2">📧 Email: info@englishdreamschool.com</p>
+            <p class="text-lg text-gray-700 mb-2">📞 Телефон: +380 (99) 123-45-67</p>
+            <p class="text-lg text-gray-700">📍 Адреса: вул. Освітня, 10, Київ, Україна</p>
+        </div>
+    </section>
+
+    <!-- Modal Window -->
+    <div id="signupModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+            <h3 class="text-2xl font-semibold mb-4 text-center">Запис на пробний урок</h3>
+            <div class="mb-4">
+                <label for="nameInput" class="block text-gray-700 mb-2">Ім'я</label>
+                <input id="nameInput" type="text" class="w-full p-2 border rounded-lg" placeholder="Введіть ваше ім'я">
+            </div>
+            <div class="mb-4">
+                <label for="phoneInput" class="block text-gray-700 mb-2">Номер телефону</label>
+                <input id="phoneInput" type="tel" class="w-full p-2 border rounded-lg" placeholder="+380XXXXXXXXX">
+            </div>
+            <div class="flex justify-between">
+                <button id="submitButton" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition">Надіслати</button>
+                <button id="closeModal" class="bg-gray-300 text-black py-2 px-4 rounded-lg hover:bg-gray-400 transition">Закрити</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4 text-center">
+        <p>© 2025 English Dream School. Усі права захищено.</p>
+    </footer>
+
+    <script>
+        // Modal logic
+        const modal = document.getElementById('signupModal');
+        const signupButton = document.getElementById('signupButton');
+        const closeModal = document.getElementById('closeModal');
+        const submitButton = document.getElementById('submitButton');
+        const nameInput = document.getElementById('nameInput');
+        const phoneInput = document.getElementById('phoneInput');
+
+        signupButton.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+        });
+
+        closeModal.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            nameInput.value = '';
+            phoneInput.value = '';
+        });
+
+        submitButton.addEventListener('click', () => {
+            const name = nameInput.value.trim();
+            const phone = phoneInput.value.trim();
+            if (name && phone) {
+                alert(`Дякуємо, ${name}! Ми отримали ваш номер: ${phone}. Скоро з вами зв'яжемось!`);
+                modal.classList.add('hidden');
+                nameInput.value = '';
+                phoneInput.value = '';
+            } else {
+                alert('Будь ласка, заповніть усі поля.');
+            }
+        });
+    </script>
+</body>
+</html>
